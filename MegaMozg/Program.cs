@@ -21,7 +21,7 @@ List<CategoryQuestion> categoryQuestions = new List<CategoryQuestion>();
 int exitMenu = 0;
 categoryQuestions = ReadCategoryBase(categoryQuestionsService);
 Initialize(actionService);
-BazaPytan(questionService, answerService); //Wczytanie pytań i odpowiedzi do pamięci
+BaseAnswers(questionService, answerService); //Wczytanie pytań i odpowiedzi do pamięci
 do
 {
     Console.Clear();
@@ -73,7 +73,7 @@ static List<CategoryQuestion> ReadCategoryBase(CategoryQuestionsService category
 
     return categoryQuestionsService.GetCategoryQuestions(); ;
 }
-static void BazaPytan(QuestionService questionService, AnswerService answerService)
+static void BaseAnswers(QuestionService questionService, AnswerService answerService)
 {
     //Pytania :
     questionService.AddBaseQuestions(1, 1, "Ile klawiszy ma standardowa klawiatura komputerowa ?");
