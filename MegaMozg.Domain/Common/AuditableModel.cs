@@ -3,14 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MegaMozg;
 
-namespace MegaMozg
+namespace MegaMozg.Domain.Common
 {
-    using MegaMozg;
-    public class StartClass
+    public class AuditableModel //Do implementacji przy bazach danych
     {
-        
-        
     }
 }

@@ -55,13 +55,7 @@ do
             break;
     }
 } while (exitMenu != 1);
-static void Initialize(InterfaceActionService actionService)
-{
-    actionService.AddNewAction(1, "Nowa gra", "Main");
-    actionService.AddNewAction(2, "Dodaj własne pytanie", "Main");
-    actionService.AddNewAction(3, "Tablica wyników", "Main");
-    actionService.AddNewAction(4, "Wyjście", "Main");    
-}
+
 //Odczyt z bazy tymczasowej 
 //Kategorie pytań
 static List<CategoryQuestion> ReadCategoryBase(CategoryQuestionsService categoryQuestionsService)
