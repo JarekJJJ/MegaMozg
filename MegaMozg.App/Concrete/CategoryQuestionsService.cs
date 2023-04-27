@@ -10,6 +10,18 @@ namespace MegaMozg.App.Concrete
 {
      public class CategoryQuestionsService :BaseService<CategoryQuestion>
     {
-       
+
+        public CategoryQuestionsService()
+        {
+            Initialize();
+        }
+
+        private void Initialize()
+        {
+            AddItem(new CategoryQuestion(1, "Techika"));
+            AddItem(new CategoryQuestion(2, "Historia"));
+            AddItem(new CategoryQuestion(3, "Geografia"));
+            AddItem(new CategoryQuestion(4, "Biologia"));
+        }
     }
 }

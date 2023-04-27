@@ -58,15 +58,7 @@ do
 
 //Odczyt z bazy tymczasowej 
 //Kategorie pytań
-static List<CategoryQuestion> ReadCategoryBase(CategoryQuestionsService categoryQuestionsService)
-{
-    categoryQuestionsService.AddCategoryQuestions(1, "Techika");
-    categoryQuestionsService.AddCategoryQuestions(2, "Historia");
-    categoryQuestionsService.AddCategoryQuestions(3, "Geografia");
-    categoryQuestionsService.AddCategoryQuestions(4, "Biologia");
 
-    return categoryQuestionsService.GetCategoryQuestions(); ;
-}
 static void BaseAnswers(QuestionService questionService, AnswerService answerService)
 {
     //Pytania :

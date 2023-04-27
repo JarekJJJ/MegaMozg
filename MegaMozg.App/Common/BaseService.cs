@@ -32,7 +32,10 @@ namespace MegaMozg.App.Common
 
         public T GetItem(int id)
         {
-           return 
+            var entity = Items.FirstOrDefault(x => x.Id == id);
+           
+                return entity;
+           
         }
     }
 

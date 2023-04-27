@@ -10,5 +10,11 @@ namespace MegaMozg.Domain.Entity
     public class CategoryQuestion : BaseEntity
     {
         public string Name { get; set; }
+
+        public CategoryQuestion(int id, string name)
+        {
+            Id= id;
+            Name= name;
+        }
     }
 }
