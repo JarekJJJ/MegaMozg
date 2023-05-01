@@ -15,7 +15,6 @@ namespace MegaMozg.App.Concrete
         {
             Initialize();
         }
-
         private void Initialize()
         {
             AddItem(new CategoryQuestion(1, "Techika"));

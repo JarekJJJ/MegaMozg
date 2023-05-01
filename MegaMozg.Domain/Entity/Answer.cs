@@ -7,18 +7,20 @@ using System.Threading.Tasks;
 
 namespace MegaMozg.Domain.Entity
 {
-    public class Question : BaseEntity
+    public class Answer : BaseEntity
     {
-       
+        
         public string Description { get; set; }
-       // public byte Difficulty { get; set; } - do implementacji w późniejszym czasie
-        public int CategoryId { get; set; }
+        public bool IsCorrect { get; set; }
+        public int QuestionId { get; set; }
 
-        public Question(int id, int categoryId,  string description )
+        public Answer(int id, int questionId, string description, bool isCorrect)
         {
             Id= id;
+            QuestionId = questionId;
             Description = description;
-            CategoryId = categoryId;
+            IsCorrect = isCorrect;               
         }
     }
+   
 }

@@ -1,15 +1,23 @@
-﻿using System;
+﻿using MegaMozg.Domain.Common;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MegaMozg
+namespace MegaMozg.Domain.Entity
 {
-    public class Player
+    public class Player : BaseEntity
+
     {
-        public int Id { get; set; }
         public string Name { get; set; }
         //public string Description { get; set; } - do implementacji w późniejszym czasie
+
+        public Player(int id, string name)
+        {
+            Id= id;
+            Name= name;
+        }
     }
+
 }

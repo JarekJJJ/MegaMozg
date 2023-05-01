@@ -14,8 +14,7 @@ namespace MegaMozg.App.Concrete
         {
         Initialize();
         }
-        
-       
+              
         public List<InterfaceAction> GetInterfaceActionsByName(string interfaceName) 
         {
             List<InterfaceAction> result = new List<InterfaceAction>();

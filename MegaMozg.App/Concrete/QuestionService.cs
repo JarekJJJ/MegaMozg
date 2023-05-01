@@ -10,43 +10,18 @@ using MegaMozg.Domain.Entity;
 namespace MegaMozg.App.Concrete
 {
     public class QuestionService :BaseService<Question>
-    {     
-        public ConsoleKeyInfo AddQuestionsView(List<CategoryQuestion> categoryQuestions)
+    {
+        public QuestionService()
         {
-            
-            
-            Console.Clear();
-            for (int i = 0; i < categoryQuestions.Count; i++)
-            {
-                Console.WriteLine($"{categoryQuestions[i].Id}. {categoryQuestions[i].Name}");
-            }
-            Console.WriteLine($"Wybierz kategorię pytania jakie chcesz dodać (1-{categoryQuestions.Count}: ");
-            var wyborKategorii = Console.ReadKey();
-
-            return wyborKategorii;
-
+            Initialize();
         }
-        public int AddUserQuestion(char categoryType)
+        private void Initialize() 
         {
-            int categoryId;
-            string userQuestion;
-            int questionId;
-            Int32.TryParse(categoryType.ToString(), out categoryId);
-            
-           // Question question = new Question();
-           // question.CategoryId = categoryId;
-            questionId = Items.Count + 1;
-            Console.Write("Napisz pytanie :");
-            userQuestion = Console.ReadLine();
-            AddItem(new Question(questionId, userQuestion, categoryId));
-            
-            return questionId;
-
-            
-        }
-        private void Initialize()
-        { 
-
+            AddItem(new Question(1, 1, "Ile klawiszy ma standardowa klawiatura komputerowa ?"));
+            AddItem(new Question(2, 1, "130 koni mechanicznych ile to kiloWatów"));
+            AddItem(new Question(3, 2, "Który król najdłużej rządził w Polsce(48 lat i 3 miesiące)?"));
+            AddItem(new Question(4, 3, "Ile w Polsce jest województw ?"));
+            AddItem(new Question(5, 4, "Stonoga (Oniscoidea) ile ma nóg ?"));
         }
 
     }

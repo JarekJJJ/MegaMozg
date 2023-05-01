@@ -10,92 +10,61 @@
 //3a. Podział na mistrzów wybranej kategorii lub  kategorii mieszanych. 
 
 using MegaMozg;
+using MegaMozg.App.Abstract;
+using MegaMozg.App.Concrete;
+using MegaMozg.App.Managers;
+using MegaMozg.Domain.Entity;
 using System.Collections.Generic;
 
-QuestionService questionService = new QuestionService();
-PlayerService playerService = new PlayerService();
-AnswerService answerService = new AnswerService();
 InterfaceActionService actionService = new InterfaceActionService();
 CategoryQuestionsService categoryQuestionsService = new CategoryQuestionsService();
-List<CategoryQuestion> categoryQuestions = new List<CategoryQuestion>();
+QuestionService questionService = new QuestionService();
+QuestionsManager questionsManager = new QuestionsManager(categoryQuestionsService, questionService);
+AnswerService answerService = new AnswerService();
+AnswersManager answersManager = new AnswersManager(answerService);
+PlayerService playerService = new PlayerService();
+PlayerManager playerManager = new PlayerManager(playerService);
+GameService gameService = new GameService();
+GameManager gameManager = new GameManager(playerService,questionService,answerService, gameService);
+//QuestionService questionService = new QuestionService();
+//PlayerService playerService = new PlayerService();
+//AnswerService answerService = new AnswerService();
+//InterfaceActionService actionService = new InterfaceActionService();
+//CategoryQuestionsService categoryQuestionsService = new CategoryQuestionsService();
+//List<CategoryQuestion> categoryQuestions = new List<CategoryQuestion>();
 int exitMenu = 0;
-categoryQuestions = ReadCategoryBase(categoryQuestionsService);
-Initialize(actionService);
-BaseAnswers(questionService, answerService); //Wczytanie pytań i odpowiedzi do pamięci
+
 do
 {
     Console.Clear();
     var mainMenu = actionService.GetInterfaceActionsByName("Main");
-
     for (int i = 0; i < mainMenu.Count; i++)
     {
         Console.WriteLine($"{mainMenu[i].Id}. {mainMenu[i].Name}");
     }
     var wyborMenu = Console.ReadKey();
-
     switch (wyborMenu.KeyChar)
     {
         case '1':
-            int playerId = playerService.AddPlayer();
-            GameService.StartGame(playerId, playerService, categoryQuestionsService, questionService, answerService);
+            int playerId = playerManager.AddNewPlayer();
+            var endGame = gameManager.StartGame(playerId);
             break;
         case '2':
-            var keyInfo = questionService.AddQuestionsView(categoryQuestions);
-            int questionId = questionService.AddNewQuestion(keyInfo.KeyChar);
-            answerService.AddNewAnswer(questionId);
+            int questionId = questionsManager.AddNewQuestions();
+            answersManager.AddUserAnswer(questionId);
             break;
         case '3':
             break;//Implementacja przy bazach danych
         case '4':
             exitMenu = 1;
             break;
-
         default:
             Console.WriteLine("Błąd: Nie wprowodzano odpowiedniej pozycji menu (1-4");
             break;
     }
 } while (exitMenu != 1);
 
-//Odczyt z bazy tymczasowej 
-//Kategorie pytań
 
-static void BaseAnswers(QuestionService questionService, AnswerService answerService)
-{
-    //Pytania :
-    questionService.AddBaseQuestions(1, 1, "Ile klawiszy ma standardowa klawiatura komputerowa ?");
-    //Odpowiedzi:
-    answerService.AddBaseAnswer(1, "104", true);
-    answerService.AddBaseAnswer(1, "110", false);
-    answerService.AddBaseAnswer(1, "101", false);
-    answerService.AddBaseAnswer(1, "112", false);
-    //Pytania :
-    questionService.AddBaseQuestions(2, 1, "130 koni mechanicznych ile to kiloWatów");
-    //Odpowiedzi:
-    answerService.AddBaseAnswer(2, "130kW", false);
-    answerService.AddBaseAnswer(2, "75.86kW", false);
-    answerService.AddBaseAnswer(2, "95.61kW", true);
-    answerService.AddBaseAnswer(2, "165.32kW", false);
-    //Pytania :
-    questionService.AddBaseQuestions(3, 2, "Który król najdłużej rządził w Polsce(48 lat i 3 miesiące)?");
-    //Odpowiedzi:
-    answerService.AddBaseAnswer(3, "Bolesław Chrobry", false);
-    answerService.AddBaseAnswer(3, "Zygmunt I Stary", false);
-    answerService.AddBaseAnswer(3, "Władysław Jagiełło", true);
-    answerService.AddBaseAnswer(3, "Jan III Sobieski", false);
-    //Pytania :
-    questionService.AddBaseQuestions(4, 3, "Ile w Polsce jest województw ?");
-    //Odpowiedzi:
-    answerService.AddBaseAnswer(4, "14", false);
-    answerService.AddBaseAnswer(4, "18", false);
-    answerService.AddBaseAnswer(4, "22", false);
-    answerService.AddBaseAnswer(4, "16", true);
-    //Pytania :
-    questionService.AddBaseQuestions(5, 4, "Stonoga (Oniscoidea) ile ma nóg ?");
-    //Odpowiedzi:
-    answerService.AddBaseAnswer(5, "7 par", true);
-    answerService.AddBaseAnswer(5, "47 par", false);
-    answerService.AddBaseAnswer(5, "50 par", false);
-    answerService.AddBaseAnswer(5, "67 par", false);
-}
+
 
 

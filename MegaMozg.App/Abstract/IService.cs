@@ -14,6 +14,7 @@ namespace MegaMozg.App.Abstract
         List<T> GetAllItems();
         T GetItem(int id);
         int AddItem(T item);
+        int GetLastId();
 
 
     }

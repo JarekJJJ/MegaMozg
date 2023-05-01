@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MegaMozg.App.Abstract;
+using MegaMozg.Domain.Entity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,21 +8,34 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 
 
-namespace MegaMozg
+namespace MegaMozg.App.Managers
 {
-    public class GameService
+    public class GameManager
     {
-        public static void StartGame(int playerId, PlayerService player, CategoryQuestionsService category, QuestionService question, AnswerService answer)
+        private IService<Player> _playerService;
+        private IService<Question> _question;
+        private IService<Answer> _answer;
+        private IService<Game> _gameService;
+        //IService<CategoryQuestion> _categoryQuestions; - do zrobienia w przyszłości
+        public GameManager(IService<Player> player, IService<Question> question, IService<Answer> answer, IService<Game> gameService) 
         {
-            int wynik = 0;
+            _playerService= player;
+            _question= question;
+            _answer= answer;
+            _gameService= gameService;
+
+        }
+        public Game StartGame(int playerId)
+        {
+            int score = 0;
             Random random = new Random();
             int[] numberQuestions = new int[5];
             List<Question> randomQuestions = new List<Question>();
             int z = 0;
             bool noRepeatNumber = true;
-            var actualPlayer = player.GetPlayer(playerId);
+            var actualPlayer = _playerService.GetItem(playerId);
             Console.WriteLine($"Witaj {actualPlayer.Name} "); ;
-            var questions = question.GetQuestions();
+            var questions = _question.GetAllItems();
 
             while (z < 5)
             {
@@ -61,9 +76,17 @@ namespace MegaMozg
                 Answer[] answerChoice = new Answer[4];
                 Console.WriteLine(element.Description);
                 Console.WriteLine();
-                var answers = answer.GetAnswers(element.Id);
+                var allAnswers = _answer.GetAllItems();
+                List<Answer> answerList = new List<Answer>();
+                foreach (var answer in allAnswers)
+                {
+                    if(element.Id == answer.QuestionId) 
+                    {
+                        answerList.Add(answer);
+                    }
+                }
                 nquestion = 0;
-                foreach (var elementAnswers in answers)
+                foreach (var elementAnswers in answerList)
                 {
 
                     Console.Write($"{nquestion}: {elementAnswers.Description}    ");
@@ -86,7 +109,7 @@ namespace MegaMozg
                     Console.WriteLine("Dobra odpowiedź !");
                     Console.WriteLine("Naciśnij dowolny klawisz żeby kontynuować.");
                     Console.ReadKey();
-                    wynik = wynik + 20;
+                    score = score + 20;
                 }
                 else
                 {
@@ -97,9 +120,14 @@ namespace MegaMozg
                 }
 
             }
-            Console.WriteLine($"Zdobyłeś {wynik} punktów ! Gratulacje !");
+            Console.WriteLine($"Zdobyłeś {score} punktów ! Gratulacje !");
             Console.WriteLine("Naciśnij dowolny klawisz żeby przejść do głównego Menu.");
             Console.ReadKey();
+            int gameId;
+            gameId =  _gameService.GetLastId();
+            Game game = new Game(gameId+1, score, playerId);
+            _gameService.AddItem(game);
+            return game;
         }
     }
 }
