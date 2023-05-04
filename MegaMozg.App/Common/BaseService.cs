@@ -11,13 +11,11 @@ namespace MegaMozg.App.Common
 {
     public class BaseService<T> : IService<T> where T : BaseEntity
     {
-
         public List<T> Items { get; set; }
         public BaseService()
         {
             Items= new List<T>();
         }
-
       public int GetLastId()
         {
             int lastId;
@@ -31,16 +29,33 @@ namespace MegaMozg.App.Common
             }
             return lastId;
         }
-
+        public int GetNewId()
+        {
+            int lastId;
+            if (Items.Any())
+            {
+                lastId = Items.OrderBy(p => p.Id).LastOrDefault().Id;
+                lastId = lastId + 1;
+            }
+            else
+            {
+                lastId = 1;
+            }
+            return lastId;
+        }
         public int AddItem(T item)
         {
             Items.Add(item);
             return item.Id;
         }
-
         public List<T> GetAllItems()
         {
             return Items;
+        }
+        public List<T> GetAllItemsDescending()
+        {
+          var descendingItems = Items.OrderByDescending(x => x.Id).ToList();
+            return descendingItems;
         }
         public T GetItem(int id)
         {
@@ -48,6 +63,4 @@ namespace MegaMozg.App.Common
              return entity;           
         }
     }
-
-
 }

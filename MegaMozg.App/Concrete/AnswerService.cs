@@ -1,11 +1,13 @@
 ﻿using MegaMozg.App.Common;
 using MegaMozg.App.Concrete;
 using MegaMozg.Domain.Entity;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 
 namespace MegaMozg.App.Concrete
 {
@@ -13,8 +15,29 @@ namespace MegaMozg.App.Concrete
     {
         public AnswerService()
         {
-            Initialize();
-        }      
+            if (!File.Exists(@"answer.txt"))
+            {
+                Initialize();
+                WriteJsonDB();
+            }else
+            {
+                ReadJsonDB();
+            }           
+        }
+        public void WriteJsonDB()
+        {
+            using StreamWriter streamWriter = new StreamWriter(@"answer.txt");
+            using JsonWriter jsonWriter = new JsonTextWriter(streamWriter);
+            JsonSerializer serializer = new JsonSerializer();
+            serializer.Serialize(jsonWriter, Items);
+        }
+        public void ReadJsonDB()
+        {          
+            string jsonDb = File.ReadAllText(@"answer.txt");
+            var answers = JsonConvert.DeserializeObject<List<Answer>>(jsonDb);
+            //Items.Clear();
+            Items.AddRange(answers);
+        }
         private void Initialize()
         {
             AddItem(new Answer(1, 1, "104", true));

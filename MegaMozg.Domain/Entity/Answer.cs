@@ -8,12 +8,10 @@ using System.Threading.Tasks;
 namespace MegaMozg.Domain.Entity
 {
     public class Answer : BaseEntity
-    {
-        
+    {        
         public string Description { get; set; }
         public bool IsCorrect { get; set; }
         public int QuestionId { get; set; }
-
         public Answer(int id, int questionId, string description, bool isCorrect)
         {
             Id= id;
@@ -21,6 +19,5 @@ namespace MegaMozg.Domain.Entity
             Description = description;
             IsCorrect = isCorrect;               
         }
-    }
-   
+    }  
 }

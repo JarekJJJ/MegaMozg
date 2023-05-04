@@ -11,7 +11,6 @@ namespace MegaMozg.Domain.Entity
     {
         public string Name { get; set; }
         public string InterfaceName { get; set; }
-
         public InterfaceAction(int id,string name,  string interfaceName) 
         {
             Id= id;

@@ -11,7 +11,6 @@ namespace MegaMozg.App.Managers
     public class PlayerManager
     {
         private IService<Player> _playerService;
-
         public PlayerManager(IService<Player> playerService)
         {
             _playerService = playerService;

@@ -13,8 +13,7 @@ namespace MegaMozg.App.Concrete
         public InterfaceActionService() 
         {
         Initialize();
-        }
-              
+        }             
         public List<InterfaceAction> GetInterfaceActionsByName(string interfaceName) 
         {
             List<InterfaceAction> result = new List<InterfaceAction>();

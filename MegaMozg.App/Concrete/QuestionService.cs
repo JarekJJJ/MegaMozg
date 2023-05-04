@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MegaMozg.App.Common;
 using MegaMozg.Domain.Entity;
+using Newtonsoft.Json;
 
 namespace MegaMozg.App.Concrete
 {
@@ -13,7 +14,29 @@ namespace MegaMozg.App.Concrete
     {
         public QuestionService()
         {
-            Initialize();
+            if (!File.Exists(@"question.txt"))
+            {
+                Initialize();
+                WriteJsonDB();
+            }
+            else
+            {
+                ReadJsonDB();
+            }
+        }
+        public void WriteJsonDB()
+        {
+            using StreamWriter streamWriter = new StreamWriter(@"question.txt");
+            using JsonWriter jsonWriter = new JsonTextWriter(streamWriter);
+            JsonSerializer serializer = new JsonSerializer();
+            serializer.Serialize(jsonWriter, Items);
+        }
+        public void ReadJsonDB()
+        {
+            string jsonDb = File.ReadAllText(@"question.txt");
+            var questions = JsonConvert.DeserializeObject<List<Question>>(jsonDb);
+            Items.Clear();
+            Items.AddRange(questions);
         }
         private void Initialize() 
         {

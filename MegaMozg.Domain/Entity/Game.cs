@@ -11,11 +11,13 @@ namespace MegaMozg.Domain.Entity
     {
         public int Score { get; set; }
         public int PlayerId { get; set; }
-        public Game(int id, int score, int playerId)
+        public string PlayerName { get; set; }
+        public Game(int id, int score, int playerId, string playerName)
         {
             Score = score;
             Id = id;
             PlayerId = playerId;
+            PlayerName = playerName;    
         }
     }
 }

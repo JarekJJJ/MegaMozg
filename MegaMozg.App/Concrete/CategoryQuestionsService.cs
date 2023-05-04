@@ -10,7 +10,6 @@ namespace MegaMozg.App.Concrete
 {
      public class CategoryQuestionsService :BaseService<CategoryQuestion>
     {
-
         public CategoryQuestionsService()
         {
             Initialize();

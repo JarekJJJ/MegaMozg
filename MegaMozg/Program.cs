@@ -1,12 +1,9 @@
 ﻿
 //Mega Mózg - gra w quizy
-//Funkcjonalności
-// 1.Nowa gra
-// 1a. Nazwa gracza
+//Funkcjonalności do zrobienia
 //1b. Tryby gru (mieszane kategorie, lub pytania z określonj kategorii.
-//2. Dodawanie własnych pytań
-//2a. Pytania mają określoną trudność (1-10) oraz kategorię
-//3. Hall of Fame - lista graczy z najlepszymi wynikami (%)
+//2a. Pytania mają określoną trudność (1-10), oraz mnożnik punktacji
+//2d. Ujemne punkty za złe odpowiedzi. 
 //3a. Podział na mistrzów wybranej kategorii lub  kategorii mieszanych. 
 
 using MegaMozg;
@@ -19,21 +16,14 @@ using System.Collections.Generic;
 InterfaceActionService actionService = new InterfaceActionService();
 CategoryQuestionsService categoryQuestionsService = new CategoryQuestionsService();
 QuestionService questionService = new QuestionService();
-QuestionsManager questionsManager = new QuestionsManager(categoryQuestionsService, questionService);
 AnswerService answerService = new AnswerService();
-AnswersManager answersManager = new AnswersManager(answerService);
 PlayerService playerService = new PlayerService();
-PlayerManager playerManager = new PlayerManager(playerService);
 GameService gameService = new GameService();
+UserQuestionManager userQuestionManager = new UserQuestionManager(categoryQuestionsService,questionService,answerService);
+PlayerManager playerManager = new PlayerManager(playerService);
 GameManager gameManager = new GameManager(playerService,questionService,answerService, gameService);
-//QuestionService questionService = new QuestionService();
-//PlayerService playerService = new PlayerService();
-//AnswerService answerService = new AnswerService();
-//InterfaceActionService actionService = new InterfaceActionService();
-//CategoryQuestionsService categoryQuestionsService = new CategoryQuestionsService();
-//List<CategoryQuestion> categoryQuestions = new List<CategoryQuestion>();
+HighScoreManager highScoreManager = new HighScoreManager(gameService, playerService);
 int exitMenu = 0;
-
 do
 {
     Console.Clear();
@@ -47,13 +37,15 @@ do
     {
         case '1':
             int playerId = playerManager.AddNewPlayer();
-            var endGame = gameManager.StartGame(playerId);
+            gameManager.StartGame(playerId);
+            gameService.WriteJsonDB();
             break;
         case '2':
-            int questionId = questionsManager.AddNewQuestions();
-            answersManager.AddUserAnswer(questionId);
+            int questionId = userQuestionManager.AddNewQuestions();
+            userQuestionManager.AddUserAnswer(questionId);
             break;
         case '3':
+            highScoreManager.GetHighScore();
             break;//Implementacja przy bazach danych
         case '4':
             exitMenu = 1;

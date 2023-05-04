@@ -10,7 +10,5 @@ namespace MegaMozg.App.Concrete
 {
     public class PlayerService : BaseService<Player>
     {
-
-
     }    
 }
