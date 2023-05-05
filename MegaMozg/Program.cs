@@ -35,8 +35,7 @@ do
             gameService.WriteJsonDB();
             break;
         case '2':
-            int questionId = userQuestionManager.AddNewQuestions();
-            userQuestionManager.AddUserAnswer(questionId);
+            userQuestionManager.AddNewQuestions();            
             break;
         case '3':
             highScoreManager.GetHighScore();

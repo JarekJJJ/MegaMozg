@@ -75,8 +75,8 @@ namespace MegaMozg.App.Managers
             Console.WriteLine("Naciśnij dowolny klawisz żeby przejść do głównego Menu.");
             Console.ReadKey();
             int gameId;
-            gameId = _gameService.GetLastId();
-            Game game = new Game(gameId + 1, score, playerId, actualPlayer.Name);
+            gameId = _gameService.GetNewId();
+            Game game = new Game(gameId, score, playerId, actualPlayer.Name);
             _gameService.AddItem(game);
         }
     }

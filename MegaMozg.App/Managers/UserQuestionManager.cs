@@ -23,7 +23,7 @@ namespace MegaMozg.App.Managers
             _questionService = questionService;
             _answerService = answerService;
         }
-        public int AddNewQuestions()
+        public void AddNewQuestions()
         {
             Console.Clear();
             string userQuestion;
@@ -38,12 +38,12 @@ namespace MegaMozg.App.Managers
             Int32.TryParse(selectedCategory.KeyChar.ToString(), out catId);
             Console.Write("Napisz pytanie :");
             userQuestion = Console.ReadLine();
-            var lastId = _questionService.GetLastId();
-            Question question = new Question(lastId + 1, catId, userQuestion);
-            _questionService.AddItem(question);            
-            return question.Id;
+            var lastId = _questionService.GetNewId();
+            Question question = new Question(lastId, catId, userQuestion);
+            _questionService.AddItem(question);
+            AddUserAnswer(question.Id);
         }
-        public void AddUserAnswer(int questionId)
+        private void AddUserAnswer(int questionId)
         {
             bool answerSecurity = false;
             int numberAnswers = 1;
@@ -52,7 +52,7 @@ namespace MegaMozg.App.Managers
             Console.Clear();
             do
             {
-                var lastId = _answerService.GetLastId();
+                var lastId = _answerService.GetNewId();
                 Console.Write($"Podaj odpowiedź {numberAnswers}: ");
                 answerDescription = Console.ReadLine();
                 Console.Write("Czy odpowiedź jest prawidłowa ? (1-Tak, 2-Nie) : ");
@@ -62,13 +62,13 @@ namespace MegaMozg.App.Managers
                 {
                     answerSecurity = true;
                     numberAnswers++;
-                    Answer answer = new Answer(lastId + 1, questionId, answerDescription, true);
+                    Answer answer = new Answer(lastId, questionId, answerDescription, true);
                     _answerService.AddItem(answer);
                 }
                 else if (answerYesOrNo == 2)
                 {
                     numberAnswers++;
-                    Answer answer = new Answer(lastId + 1, questionId, answerDescription, false);
+                    Answer answer = new Answer(lastId, questionId, answerDescription, false);
                     _answerService.AddItem(answer);
                 }
                 else

@@ -22,10 +22,10 @@ namespace MegaMozg.App.Managers
             Console.Write("Podaj nick: ");
             string name = Console.ReadLine();
             Console.WriteLine();
-            playerId = _playerService.GetLastId();
-            Player player = new Player(playerId + 1, name);
+            playerId = _playerService.GetNewId();
+            Player player = new Player(playerId, name);
             _playerService.AddItem(player);
-            return playerId+1;
+            return playerId;
         }
     }
 }
