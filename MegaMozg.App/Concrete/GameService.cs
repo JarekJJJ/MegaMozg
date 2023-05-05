@@ -35,7 +35,6 @@ namespace MegaMozg.App.Concrete
         {
             string jsonDb = File.ReadAllText(@"highscore.txt");
             var highScore = JsonConvert.DeserializeObject<List<Game>>(jsonDb);
-            //Items.Clear();
             Items.AddRange(highScore);
         }
     }

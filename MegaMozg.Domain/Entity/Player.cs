@@ -10,7 +10,6 @@ namespace MegaMozg.Domain.Entity
     public class Player : BaseEntity
     {
         public string Name { get; set; }
-        //public string Description { get; set; } - do implementacji w późniejszym czasie
         public Player(int id, string name)
         {
             Id= id;

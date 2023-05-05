@@ -35,7 +35,6 @@ namespace MegaMozg.App.Concrete
         {          
             string jsonDb = File.ReadAllText(@"answer.txt");
             var answers = JsonConvert.DeserializeObject<List<Answer>>(jsonDb);
-            //Items.Clear();
             Items.AddRange(answers);
         }
         private void Initialize()

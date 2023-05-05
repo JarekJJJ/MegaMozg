@@ -15,6 +15,8 @@ namespace MegaMozg.App.Managers
         private IService<Answer> _answerService;
         private readonly CategoryQuestionsService _categoryService;
         private IService<Question> _questionService;
+        QuestionService userQuestions = new QuestionService();
+        AnswerService userAnswer = new AnswerService();
         public UserQuestionManager(CategoryQuestionsService categoryService, IService<Question> questionService, IService<Answer> answerService)
         {
             _categoryService = categoryService;
@@ -25,8 +27,6 @@ namespace MegaMozg.App.Managers
         {
             Console.Clear();
             string userQuestion;
-
-
             var categoryList = _categoryService.GetAllItems();
             for (int i = 0; i < _categoryService.Items.Count; i++)
             {
@@ -36,20 +36,14 @@ namespace MegaMozg.App.Managers
             var selectedCategory = Console.ReadKey();
             int catId;
             Int32.TryParse(selectedCategory.KeyChar.ToString(), out catId);
-            //int.TryParse(selectedCategory, out selectedCategory); 
             Console.Write("Napisz pytanie :");
             userQuestion = Console.ReadLine();
             var lastId = _questionService.GetLastId();
-            //if (selectedCategory != null) {
             Question question = new Question(lastId + 1, catId, userQuestion);
-            _questionService.AddItem(question);
-            // }
-            
+            _questionService.AddItem(question);            
             return question.Id;
         }
         public void AddUserAnswer(int questionId)
-        //Metoda nie sprawdza czy jest jakakolwiek dobra odpowiedź , trzeba zaimplementować tymczasową listę odpowiedzi
-        //sprawdzić jej poprawność i dopiero dodać do właściwej List<Answer> -  poprzez addrange(); - Do zrobienia !!! 
         {
             bool answerSecurity = false;
             int numberAnswers = 1;
@@ -76,7 +70,6 @@ namespace MegaMozg.App.Managers
                     numberAnswers++;
                     Answer answer = new Answer(lastId + 1, questionId, answerDescription, false);
                     _answerService.AddItem(answer);
-                    //AddItem(new Answer(answerId, answerDescription, false, questionId));
                 }
                 else
                 {
@@ -85,19 +78,12 @@ namespace MegaMozg.App.Managers
                 Console.Clear();
                 
             } while (numberAnswers < 5);
-            SaveQuestionAndAnswer();
-        }
-        public void SaveQuestionAndAnswer() // Dodać nowy obiekt list qustion i list answer i dodać getallitems i dopiero serialize !
-        {           
-            using StreamWriter streamWriter = new StreamWriter(@"question.txt");
-            using JsonWriter jsonWriter = new JsonTextWriter(streamWriter);
-            JsonSerializer serializer = new JsonSerializer();
-            serializer.Serialize(jsonWriter, _questionService.Items);
-
-            using StreamWriter streamWriterAnswer = new StreamWriter(@"answer.txt");
-            using JsonWriter jsonWriterAnswer = new JsonTextWriter(streamWriterAnswer);
-            JsonSerializer serializerAnswer = new JsonSerializer();
-            serializerAnswer.Serialize(jsonWriterAnswer, _answerService.Items);
+            userQuestions.Items.Clear();
+            userAnswer.Items.Clear();
+            userQuestions.Items.AddRange(_questionService.Items);
+            userQuestions.WriteJsonDB();
+            userAnswer.Items.AddRange(_answerService.Items);
+            userAnswer.WriteJsonDB();
         }
     }
 }

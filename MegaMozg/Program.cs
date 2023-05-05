@@ -1,11 +1,5 @@
 ﻿
 //Mega Mózg - gra w quizy
-//Funkcjonalności do zrobienia
-//1b. Tryby gru (mieszane kategorie, lub pytania z określonj kategorii.
-//2a. Pytania mają określoną trudność (1-10), oraz mnożnik punktacji
-//2d. Ujemne punkty za złe odpowiedzi. 
-//3a. Podział na mistrzów wybranej kategorii lub  kategorii mieszanych. 
-
 using MegaMozg;
 using MegaMozg.App.Abstract;
 using MegaMozg.App.Concrete;
@@ -46,7 +40,7 @@ do
             break;
         case '3':
             highScoreManager.GetHighScore();
-            break;//Implementacja przy bazach danych
+            break;
         case '4':
             exitMenu = 1;
             break;
