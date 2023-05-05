@@ -31,7 +31,7 @@ do
     {
         case '1':
             int playerId = playerManager.AddNewPlayer();
-            gameManager.StartGame(playerId);
+            gameManager.StartGame(playerId, questionService, answerService);
             gameService.WriteJsonDB();
             break;
         case '2':

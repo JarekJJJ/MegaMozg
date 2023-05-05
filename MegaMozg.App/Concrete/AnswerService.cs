@@ -24,6 +24,11 @@ namespace MegaMozg.App.Concrete
                 ReadJsonDB();
             }           
         }
+        public List<Answer> GetAnswersToRandomQuestion(int questionId)
+        {
+            var answerQuestion = Items.Where(q => q.QuestionId == questionId).ToList();
+            return answerQuestion;
+        }
         public void WriteJsonDB()
         {
             using StreamWriter streamWriter = new StreamWriter(@"answer.txt");

@@ -17,7 +17,7 @@ namespace MegaMozg.App.Managers
         private IService<Question> _question;
         private IService<Answer> _answer;
         private IService<Game> _gameService;
-        //IService<CategoryQuestion> _categoryQuestions; - do zrobienia w przyszłości
+      //  private QuestionService _questionService = new QuestionService();
         public GameManager(IService<Player> player, IService<Question> question, IService<Answer> answer, IService<Game> gameService)
         {
             _playerService = player;
@@ -25,18 +25,19 @@ namespace MegaMozg.App.Managers
             _answer = answer;
             _gameService = gameService;
         }
-        public void StartGame(int playerId)
+        public void StartGame(int playerId, QuestionService questionService, AnswerService answerService)
         {
             int score = 0;
             var actualPlayer = _playerService.GetItem(playerId);
             Console.WriteLine($"Witaj {actualPlayer.Name} "); ;
-            var randomQuestions = _question.Items.OrderBy(x => Guid.NewGuid()).Take(5).ToList();
+            var randomQuestions = questionService.GetRandomQuestion();
             randomQuestions.ForEach(x =>
             {               
                 Console.WriteLine(x.Description);
-                var answerQuestion = _answer.Items.Where(q => q.QuestionId == x.Id).ToList();
+                Console.WriteLine(" ");
+                var answerQuestion = answerService.GetAnswersToRandomQuestion(x.Id);
                 int nquestion = 1;
-                answerQuestion.ToList().ForEach(a =>
+                answerQuestion.ForEach(a =>
                 {
                     Console.Write($"{nquestion}: {a.Description}    ");
                     if (nquestion % 2 == 0)
@@ -49,7 +50,8 @@ namespace MegaMozg.App.Managers
                     }
                 });
                 int userChoice;
-                Console.Write("Wybierz odpowiedź (0-3) i naciśnij ENTER: ");
+                Console.WriteLine(" ");
+                Console.Write("Wybierz odpowiedź (1-4) i naciśnij ENTER: ");
                 Int32.TryParse(Console.ReadLine(), out (userChoice));
                 userChoice = userChoice - 1;
                 if (answerQuestion[userChoice].IsCorrect)

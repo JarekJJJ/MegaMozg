@@ -10,7 +10,7 @@ using Newtonsoft.Json;
 
 namespace MegaMozg.App.Concrete
 {
-    public class QuestionService :BaseService<Question>
+    public class QuestionService : BaseService<Question>
     {
         public QuestionService()
         {
@@ -23,6 +23,11 @@ namespace MegaMozg.App.Concrete
             {
                 ReadJsonDB();
             }
+        }
+        public List<Question> GetRandomQuestion()
+        {
+            var randomQuestions = Items.OrderBy(x => Guid.NewGuid()).Take(5).ToList();
+            return randomQuestions;
         }
         public void WriteJsonDB()
         {
@@ -38,7 +43,7 @@ namespace MegaMozg.App.Concrete
             Items.Clear();
             Items.AddRange(questions);
         }
-        private void Initialize() 
+        private void Initialize()
         {
             AddItem(new Question(1, 1, "Ile klawiszy ma standardowa klawiatura komputerowa ?"));
             AddItem(new Question(2, 1, "130 koni mechanicznych ile to kiloWatów"));
